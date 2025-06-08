@@ -16,11 +16,17 @@ namespace solarsystem {
         bodies.push_back(body);
     }
 
+    void SolarSystem::setTimeScale(double f_timeScale)
+    {
+           timeScale = f_timeScale;
+           currentDay += f_timeScale;
+    }
+
     void SolarSystem::update()
     {
         currentDay++;
         for (auto& body : bodies) {
-            body.angle += body.angularVelocity;
+            body.angle += body.angularVelocity * timeScale;
         }
     }
 
@@ -37,5 +43,10 @@ namespace solarsystem {
     void SolarSystem::getDay() const
     {
         std::cout<<"Day: "<< currentDay << std::endl;
+    }
+
+    void SolarSystem::SetAmountofDays(int f_Days)
+    {
+        max_Days = f_Days;
     }
 } // solarsystem

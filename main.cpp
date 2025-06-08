@@ -1,11 +1,15 @@
 #include <iostream>
-#include "CelestialBody.h"
-#include "SolarSystem.h"
+#include "simulation/CelestialBody.h"
+#include "simulation/SolarSystem.h"
 
 #include <chrono>
 #include <thread>
 
 using namespace celestialbody;
+
+char choise;
+int Days = 0;
+double m_timeScale = 1.0;
 
 int main() {
 
@@ -30,13 +34,44 @@ int main() {
     Uklad.addBody(uranus);
     Uklad.addBody(neptune);
 
-    for (int i = 0; i < 365; i++)
-    {
-        Uklad.update();
-        Uklad.printPositions();
+    do {
+        std::cout << "1. Print positions" << std::endl;
+        std::cout<<"2. Set time scale" << std::endl;
+        std::cout<<"3. Set how long the simulation should last"<<std::endl;
+        std::cout<<"4. Execute the simulation"<<std::endl;
+        std::cout<<"5. Exit"<<std::endl;
+        std::cin >> choise;
 
-        //std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
+        switch(choise)
+        {
+            case '1':{
+                Uklad.printPositions();
+                break;
+            }
+            case '2': {
+                std::cin>>m_timeScale;
+                Uklad.setTimeScale(m_timeScale);
+                break;
+            }
+            case '3':{
+                std::cin>>Days;
+                Uklad.SetAmountofDays(Days);
+                break;
+            }
+            case '4': {
+                for (int i = 0; i < Days; i++)
+                {
+                    Uklad.update();
+                    Uklad.printPositions();
+                }
+                break;
+            }
+            case '5':{std::cout << "Goodbye!" << std::endl; break;}
+            default:{std::cout << "Wrong key pressed!" << std::endl;}
+        }
+
+
+    }while(choise != '5');
 
     return 0;
 }
